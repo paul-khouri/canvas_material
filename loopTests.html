@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Loop Testing</title>
+    <style>
+    body{
+        font-size: 20px;
+    }
+    </style>
+
+</head>
+<body>
+    <div id="output"></div>
+<script>
+    function print(m){
+        document.getElementById("output").innerHTML += m;
+        
+    }
+    function newLine(){
+        document.getElementById("output").innerHTML += "<br>";
+    }
+   print("Hello");
+    //writing a loop
+    print("Loop that counts from 0 to 9");
+    newLine();
+    for(var i=0; i<10; i++){
+        print(i + " , ");
+    }
+    newLine()
+    //writing a loop
+    print("Loop that counts from 0 to 99");
+    newLine();
+    for(var k=0; k<100; k++){
+        print(k + ",");
+    }
+    newLine();
+    //writing a loop
+    print("Loop that counts from 15 to 30");
+    newLine();
+    for(var k=15; k<=30; k++){
+        print(k + ",");
+    }
+    newLine();
+    print("Odd Numbers");
+    newLine();
+    for(var k=0; k<=16; k++){
+        print(2*k+1 + ",");
+    }
+    newLine();
+    print("Double Loop");
+    newLine();
+    for(var i=0; i<10; i++){
+        for(var k=0; k<10; k++){
+            print("  "+ i + "," + k + "  ");
+        }
+        newLine();
+    }
+    </script>
+</body>
+</html>
