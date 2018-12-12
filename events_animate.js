@@ -32,15 +32,18 @@ const height = canvas.height/myScale;
 
 var xMouse = 0;
 var yMouse = 0;
+var mouseDown = false;
 
 // mouse event listeners
 canvas.addEventListener("mousedown",myMouseDown);
 function myMouseDown(e){
+    mouseDown = true;
     console.log("mouse down has happened");
 }
 
 canvas.addEventListener("mouseup", myMouseUp);
 function myMouseUp(e){
+    mouseDown = false;
     console.log("mouse up has happened");
 }
 
@@ -48,11 +51,6 @@ canvas.addEventListener("mousemove", myMouseMove);
 function myMouseMove(e){
     xMouse = e.offsetX;
     yMouse = e.offsetY;
-    console.log("mouse move has happened");
-    myCircle.x=xMouse;
-    myCircle.y=yMouse;
-    ctx.clearRect(0, 0, width, height);
-    myCircle.update();
 }
 
 // object requires class name, constructor, encapsulated functions
@@ -89,6 +87,18 @@ class Circle{
 }
 myCircle=new Circle(xMouse, yMouse, 20,"rgb(255,204,51)", "rgb(51,51,255)", true, true, 3 );
 myCircle.update();
+var count = 0;
+function animate(){
+    count += 1;
+    console.log(count);
+    if(mouseDown){
+    myCircle.x=xMouse;
+    myCircle.y=yMouse;}
+    ctx.clearRect(0, 0, width, height);
+    myCircle.update();
+    window.requestAnimationFrame(animate);
+}
+animate();
 
 
 
