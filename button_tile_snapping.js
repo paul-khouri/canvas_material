@@ -30,28 +30,9 @@ canvas = document.querySelector('.myCanvas');
 const width = canvas.width/myScale;
 const height = canvas.height/myScale;
 
-var xMouse = 0;
-var yMouse = 0;
-var mouseDown = false;
 
-// mouse event listeners
-canvas.addEventListener("mousedown",myMouseDown);
-function myMouseDown(e){
-    mouseDown = true;
-    //console.log("mouse down has happened");
-}
 
-canvas.addEventListener("mouseup", myMouseUp);
-function myMouseUp(e){
-    mouseDown = false;
-    //console.log("mouse up has happened");
-}
 
-canvas.addEventListener("mousemove", myMouseMove);
-function myMouseMove(e){
-    xMouse = e.offsetX;
-    yMouse = e.offsetY;
-}
 // ------------------ functions 
 // check in rectangular bounds xMouseNow, yMouseNow, x,y, width, height
 function inBounds(xMouse, yMouse, x,y,width, height){
@@ -76,14 +57,8 @@ var selectedButton;
 class Button{
     // string name, int x, int y, int w,int h, stringrgba bC, stringrgba hC, stringrgba sC,boolean s  
    constructor(name,x,y,w,h,bC, hC, sC){
-       this.name = name; 
-       this.x=x; 
-       this.y=y; 
-       this.width = w; 
-       this.height = h;
-       this.baseColor = bC; 
-       this.hoverColor = hC ; 
-       this.selectedColor= sC ;
+       this.name = name; this.x=x; this.y=y; this.width = w; this.height = h;
+       this.baseColor = bC; this.hoverColor = hC ; this.selectedColor= sC ;
        this.selected = false;  
    }
    update(){
@@ -116,14 +91,13 @@ class Button{
         ctx.font=myFont;
         ctx.textBaseline='middle';
         ctx.textAlign='center';
-        
-        
         ctx.fillText(this.name, this.x+this.width/2,this.y+2*this.height/4);
    }
    }
    Button.prototype.inBounds=inBounds;
 //------------------------------
 // object requires class name, constructor, encapsulated functions
+// Circle x, y,radius, fillcolour stroke colour, fill(b), stroke(b), l
 class Circle{
 	constructor(x,y,r,f_col, s_col,f,s, l){
 		this.x = x;
@@ -172,7 +146,6 @@ class Rectangle{
         this.draw();
 
     }
-
     draw(){
         ctx.fillStyle = this.f_col;
         ctx.strokeStyle = this.s_col;
@@ -185,8 +158,7 @@ class Rectangle{
         
     }
 }
-// top corner x,y, number of x divisions, number y divisions, 
-// stroke colour, width
+
 class Grid{
 constructor(x,y,w,h,x_num, y_num, s_col, l){
     this.x=x;
@@ -221,16 +193,45 @@ constructor(x,y,w,h,x_num, y_num, s_col, l){
         }
     }
 }
-// rgb(0,0,0) rgb(153,153,153) rgb(255,255,255)
-// rgb(204,0,0) rgb(255,204,51) rgb(51,51,255)
-// rgb(255,102,102) rgb(255,255,153) rgb(0,153,204)
+
+var xMouse = 0;
+var yMouse = 0;
+var mouseDown = false;
+
+// mouse event listeners
+canvas.addEventListener("mousedown",myMouseDown);
+function myMouseDown(e){
+    mouseDown = true;
+    console.log("mouse down has happened");
+}
+
+canvas.addEventListener("mouseup", myMouseUp);
+function myMouseUp(e){
+    mouseDown = false;
+    //console.log("mouse up has happened");
+}
+
+canvas.addEventListener("mousemove", myMouseMove);
+function myMouseMove(e){
+    xMouse = e.offsetX;
+    yMouse = e.offsetY;
+}
+
 var boundryX =25;
 var boundryY =25;
 var boundryWidth = 400;
 var boundryHeight = 400;
-myGrid = new Grid(boundryX,boundryY,boundryWidth, boundryHeight, 1, 1,"rgb(255,255,255)", 0.5);
-squareButton = new Button("Square",25,450, 200,60,"rgb(51,51,255)", "rgb(255,255,153)", "rgb(0,153,204)" );
-circleButton = new Button("Circle",225,450, 200,60,"rgb(51,51,255)", "rgb(255,255,153)", "rgb(0,153,204)" );
+// white ,grey, black
+//deep green blue, green, pale green
+//red, yellow, blue black
+var mycol = ["rgb(255,255,255)", "rgb(153,153,153)", "rgb(0,0,0)",
+"rgb(11,73,88)", "rbg(77,138,124)", "rgb(255,243,139)", 
+"rgb(255,78,100)", "rgb(255,255,153)" , "rgb(27,63,72)"];
+myGrid = new Grid(boundryX,boundryY,boundryWidth, boundryHeight, 10, 10,"rgb(255,255,255)", 0.5);
+// string name, int x, int y, int w,int h, stringrgba bC, stringrgba hC, stringrgba sC,boolean s 
+squareButton = new Button("Square",25,450, 133,60,"rgb(51,51,255)", "rgb(255,255,153)", "rgb(0,153,204)" );
+circleButton = new Button("Circle",158,450, 133,60,"rgb(51,51,255)", "rgb(255,255,153)", "rgb(0,153,204)" );
+
 var count = 0;
 function animate(){
     count += 1;
@@ -240,23 +241,25 @@ function animate(){
     circleButton.update();
     for(var k=0; k<objectSet.length; k++){
         objectSet[k].update();
-
+        
     }
-    
 
     if (inBounds(xMouse, yMouse, boundryX, boundryY, boundryWidth, boundryHeight)){
         console.log("mouse in bounds");
 
     if(mouseDown && selectedButton){
+        var xRound = roundTo(xMouse, 40,25);
+        var yRound = roundTo(yMouse, 40,25);
         if(selectedButton.name == "Square"){
             console.log("I want to draw a square");
             // Rectangle x, y, width, height, fillcolour stroke colour, fill(b), stroke(b), l
-            objectSet.push(new Rectangle(xMouse, yMouse, 40,40,"rgb(204,204,0)","rgb(200,200,200)", true, false, 0.1 ))
+            objectSet.push(new Rectangle(xRound, yRound, 40,40,"rgb(204,204,0)","rgb(200,200,200)", true, false, 0.1 ))
             mouseDown = false;
         }
         if(selectedButton.name == "Circle"){
             console.log("I want to draw a circle");
-            objectSet.push(new Circle(xMouse,yMouse,20,"rgb(200,200,200)","rgb(204,0,0)",true,false,0.1))
+            // Circle x, y,radius, fillcolour stroke colour, fill(b), stroke(b), l
+            objectSet.push(new Circle(xRound+20,yRound+20,20,"rgb(200,200,200)","rgb(204,0,0)",true,false,0.1))
             mouseDown = false;
 
         }
