@@ -88,9 +88,9 @@ function newLine(){
 canvas.addEventListener("touchstart", handleStart, true);
 function handleStart(e){
     print("From Touch");
-    print(e.offsetX);
+    print(e.pageX);
     newLine();
-    print(e.offsetY);
+    print(e.pageY);
     newLine();
 }
 canvas.addEventListener("mousedown", handleDown);
