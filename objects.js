@@ -1,10 +1,37 @@
-console.log("hello");
-var canvas=document.getElementById("myCanvas");
-var c=canvas.getContext('2d');
-const width = 800;
-const height = 600;
-canvas.width=width;
-canvas.height=height;
+console.log("js file has been called");
+// ----------------- set up code includes resolution management
+var myScale = 0;
+
+function setupCanvas(canvas) {
+  // Get the device pixel ratio, falling back to 1.
+  var dpr = window.devicePixelRatio || 1;
+  myScale=dpr;
+  // Get the size of the canvas in CSS pixels.
+  var rect = canvas.getBoundingClientRect();
+  console.log(rect.width);
+  console.log(rect.height);
+  // Give the canvas pixel dimensions of their CSS
+  // size * the device pixel ratio.
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  var ctx = canvas.getContext('2d');
+  // Scale all drawing operations by the dpr, so you
+  // don't have to worry about the difference.
+  ctx.scale(dpr, dpr);
+  return ctx;
+}
+// basic drawing on the canvas with no functions
+
+
+ // Now this line will be the same size on the page
+  // but will look sharper on high-DPI devices!
+var ctx = setupCanvas(document.querySelector('.myCanvas'));
+canvas = document.querySelector('.myCanvas');
+const width = canvas.width/myScale;
+const height = canvas.height/myScale;
+// rgb(0,0,0) rgb(153,153,153) rgb(255,255,255)
+// rgb(204,0,0) rgb(255,204,51) rgb(51,51,255)
+// rgb(255,102,102) rgb(255,255,153) rgb(0,153,204)
 
 // object requires class name, constructor, encapsulated functions
 class Circle{
@@ -24,16 +51,16 @@ class Circle{
     }
 
     draw(){
-        c.fillStyle = this.f_col;
-        c.strokeStyle = this.s_col;
-        c.beginPath()
-        c.arc(this.x,this.y, this.r, 0, 2*Math.PI);
+        ctx.fillStyle = this.f_col;
+        ctx.strokeStyle = this.s_col;
+        ctx.beginPath()
+        ctx.arc(this.x,this.y, this.r, 0, 2*Math.PI);
     if(this.f){
-        c.fill();
+        ctx.fill();
     }
     if(this.s){
-        c.lineWidth=this.l;
-        c.stroke();
+        ctx.lineWidth=this.l;
+        ctx.stroke();
     }
 
         }
@@ -41,11 +68,15 @@ class Circle{
 
 }
 
-var firstCircle = new Circle(300,300,80,"rgb(255,204,51)","rgb(0,153,204)", true, false, 10);
+var firstCircle = new Circle(100,300,50,"rgb(255,204,51)","rgb(0,153,204)", true, false, 10);
 firstCircle.update();
-firstCircle.x=350;
+firstCircle.x=300;
 firstCircle.s=true;
 firstCircle.update();
+firstCircle.f_col="rgb(255,102,102)"
+firstCircle.x=500;
+firstCircle.update();
+
 
 
 
