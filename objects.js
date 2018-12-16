@@ -77,6 +77,43 @@ firstCircle.f_col="rgb(255,102,102)"
 firstCircle.x=500;
 firstCircle.update();
 
+// Triangle x, y, width, height, fillcolour stroke colour, fill(b), stroke(b), l
+class Triangle{
+    constructor(x,y,w,h,f_col,s_col, f,s,l){
+        this.x=x;
+        this.y=y;
+        this.w=w;
+        this.h=h;
+        this.f_col=f_col;
+        this.s_col = s_col;
+        this.f=f;
+        this.s=s;
+        this.l=l;
+    }
+    update(){
+        this.draw();
+
+    }
+    draw(){
+        ctx.fillStyle = this.f_col;
+        ctx.strokeStyle = this.s_col;
+        ctx.lineWidth = this.l;
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(this.x+this.w, this.y+this.h);
+        ctx.lineTo(this.x,this.y+this.h);
+        ctx.lineTo(this.x+this.w, this.y);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.fill();
+
+        
+    }
+}
+
+var myTriangle = new Triangle(600,height/2-100,200,200, "rgb(255,204,51)","rgb(0,153,204)", true, true, 10);
+myTriangle.update();
+
 
 
 

@@ -59,12 +59,13 @@ ctx.font=myFont;
 ctx.fillText("Hello World", 300,50);
 
 var myImg = new Image();   // Create new img element
+myImg.src = 'image_test.png'; // Set source path
 myImg.addEventListener('load', function() {
   // execute drawImage statements here
   console.log("image has loaded");
   ctx.drawImage(myImg, 600,10);
 }, false);
-myImg.src = 'image_test.png'; // Set source path
+
 
 // draw line
 ctx.strokeStyle="rgb(255,0,0)";
