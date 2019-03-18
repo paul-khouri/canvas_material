@@ -88,7 +88,10 @@ getY(){
 
 setX(x){
     this.xC = x;
+}
 
+setY(y){
+    this.yC = y;
 }
 
 }
